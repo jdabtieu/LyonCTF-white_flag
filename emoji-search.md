@@ -35,6 +35,7 @@ We can see 4 segments of what appears to be base64 show up, and throwing that in
 **Edit**: Along with the flag in base64, we also see key: find. This suggests a cipher of some sort, and trying a Vigenere cipher with find as the key gives the flag. I didn't notice this during the contest, and bruteforced the key instead, the details of which can be seen below.
 <details>
     <summary>Old solution</summary>
+
 Looks like some sort of basic cipher, but trying a caesar cipher doesn't work. Another option is to guess a Vigenere cipher key, since we know that the flag must start with `CTF`.
 
 A cool trick with vigenere ciphers is that for each character `X`, if you want it to equal `Y`, you can use `Y` as the key, check what `X` changed into (suppose it changes into `A`), and then that means `A` is the key you want to use.
