@@ -1,9 +1,9 @@
 # Custom RSA
 
-Author of writeup: todaybrian
-
 ![](https://img.shields.io/badge/category-cryptography-blue)
 ![](https://img.shields.io/badge/points-400-orange)
+
+Author of writeup: todaybrian
 
 Through an analysis of the given code, we know the following:
 - N, which is is a product of two large unknown prime numbers: p and q
