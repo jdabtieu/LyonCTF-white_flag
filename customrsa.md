@@ -30,4 +30,6 @@ Since we know that `gcd(p^t, n) = gcd(p^t, pq) = p`, using our observation, we c
 
 And vice versa for `q`. 
 
+The above proceses can be done in sage: https://pastebin.com/TAujVsf3
+
 Now that we have `p` and `q`, we can place all our values in here: https://www.dcode.fr/rsa-cipher, and we get our flag: `CTF{Seriously_stop_using_RSA}`
