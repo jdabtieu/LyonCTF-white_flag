@@ -25,8 +25,8 @@ We can find `p^e1 (mod N)` and `q^e1 (mod N)` through a system of equations.
 Our second observation uses a step in the euclidean algorithm:
 - `gcd(a, b) = gcd(a%b, b)`
 
-Since we know that `gcd(p^t, n) = gcd(p^t, pq) = p`, using our observation, we can find that:
-- `gcd(p^t (mod N), n) = gcd(p^t, n) = p`
+Since we know that `gcd(p^e1, n) = gcd(p^e1, pq) = p`, using our observation, we can find that:
+- `gcd(p^e1 (mod N), n) = gcd(p^e1, n) = p`
 
 And vice versa for `q`. 
 
