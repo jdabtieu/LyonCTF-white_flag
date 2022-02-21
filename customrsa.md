@@ -1,5 +1,7 @@
 # Custom RSA
 
+Author of writeup: todaybrian
+
 ![](https://img.shields.io/badge/category-cryptography-blue)
 ![](https://img.shields.io/badge/points-400-orange)
 
