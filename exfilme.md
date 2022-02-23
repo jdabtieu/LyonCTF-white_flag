@@ -8,7 +8,7 @@ placeholder - problem hidden
 ```
 
 ## Solution
-We get to run our own shellcode at `0x13371337000`. Sweet! Unfortunately, we can only use the `read`, `open`, and `exit` syscalls, so there appears to be no way to get us the flag. However, we can rely on a timing attack - in which we can guess the flag character by character, and pause for a long time if our guess is correct. Then, if our script runs for a long time, we know that our guess is correct.
+We get to run our own shellcode at `0x13371337000`. Sweet! Unfortunately, we can only use the `read`, `open`, and `exit` syscalls, so there appears to be no way to get us the flag. However, we can rely on a timing attack - in which we can guess the flag character by character, and pause for a long time if our guess is correct. Then, if our script runs for a long time, we know that our guess is correct. For example, if I guess that character 0 of the flag is 'F' (which is wrong), the program exits immediately. If instead, I guess 'C' (correct), the program should hang.
 
 To do this, I tried to hang the program using an infinite loop, but that crashed the instance and the only way to fix it was to restart it. Instead, I settled for a for loop with 1 billion iterations - which takes well over 2 seconds to complete.
 
@@ -32,10 +32,10 @@ mov rcx, 1000000000     ; loop iterations
 cmp byte[rax], bl       ; compare our guess against the flag
 cmovne rcx, rdx         ; set 0 loop iterations if our guess != the right char
 mov r12, 0x13371337067  ; the starting address of the loop
-dec rcx                 ; i-- (also the start of the loop)
+dec rcx                 ; i-- (aka the start of the loop)
 cmp rcx, 0              ; compare rcx against 0
 cmovle r12, rdx         ; if rcx <= 0 then set r12 to 0 (out of bounds memory, will crash when we jump)
-jmp rcx                 ; jump to rcx (start of loop) or 0 (if i <= 0), crashing the program
+jmp r12                 ; jump to r12 (start of loop) or 0 (if i <= 0), crashing the program
 ```
 
 The rest of the code before this is to read the flag and set rax = address of character we're comparing, and bl = character we're guessing.
@@ -143,7 +143,7 @@ for index in range(len(flag), 32):
 
 This builds the shellcode and sends it to the server, guessing every character in every position. If we guess the right character, the subprocess timeout will kick in, causing a TimeoutExpired exception that we can catch. Then, we append it to the flag and pause for 6 seconds to allow the program to finish looping and crash before we start guessing again.
 
-There is one small problem though - character 10 can't be guessed because `add rax, 10` adds a newline in our input, causing fgets to cut off the rest of our input. So at index 10, I had to manually add some placeholder character into the flag, hoping that I could figure it out once the rest of the flag was leaked.
+There is one small problem though - character 10 can't be guessed because `add rax, 10` adds a newline in our input, causing fgets to cut off the rest of our input. So at index 10, I had to stop the program, set the flag variable to the first 9 characters + a placeholder, and then continue running the program. By doing this, I hoped the flag contained some recognizable text that we can use to fill in character 10. If that wasn't possible, the shellcode could be modified without too much hassle for this special case, by doing something like setting rax to `0x13371337071` instead of `0x13371337070` and then only adding 9 instead of 10.
 
 ```
 CTF{Ever_h_ard_of_BROP?}
