@@ -8,7 +8,7 @@ placeholder - problem hidden
 ```
 
 ## Solution
-This question is basically identical to [Baby Cookie](https://github.com/jdabtieu/LyonCTF-white_flag/blob/main/babycookie.md) except that instead of returning to the print_flag function, we need to return to libc instead.
+This question is basically identical to [Baby Cookie](https://github.com/jdabtieu/LyonCTF-white_flag/blob/main/babycookie.md) except that instead of returning to the print_flag function, we need to return to libc instead. To determine the stack offsets used in this problem, refer to that writeup.
 
 The stack cookie can be leaked the same way, and instead of leaking the address of main, we want to leak any address inside libc. Checking the stack, we see that two entries below the cookie, is a pointer to __libc_start_main+243. Score!
 ```
@@ -17,11 +17,11 @@ The stack cookie can be leaked the same way, and instead of leaking the address 
 0104| 0x7ffdec2dcf98 --> 0x7f7a58ef40b3 (<__libc_start_main+243>:       mov    edi,eax)
 ```
 
-Now that we know this, we can use <libc.blukat.me> to help us find the libc offset.
+Now that we know this, we can use <https://libc.blukat.me> to help us find the libc offset.
 
 Testing `%19$p` against the server results in an address that ends in `f0b3` (your first digit might be different). While PIE does randomize the location of code, all segments must begin at an address that ends in `000`, including libc itself. Thus, if we calculate `0xf0b3 - 243`, we get `0xefc0`, meaning that [__libc_start_main exists at offset `fc0`](https://libc.blukat.me/?q=__libc_start_main%3Afc0&l=libc6_2.31-0ubuntu9.2_amd64).
 
-This corresponds to `libc6_2.31-0ubuntu9.2_amd64`, meaning that the server runs this version of libc. We should make sure that our program also uses same version.
+This corresponds to `libc6_2.31-0ubuntu9.2_amd64`, meaning that the server runs this version of libc. We should make sure that our program also uses same version. If not, we'll have to patch it to use the same version.
 
 ```
 $ ldd babyret2libc 
@@ -36,7 +36,7 @@ Luckily for me, I run the same version of libc, so no modifications need to be m
 
 The website also tells us that __libc_start_main is 0x026fc0 bytes past the start of libc, meaning that the libc base address will be our leaked address - 243 - 0x026fc0.
 
-Once we know that, we can use the buffer overflow to jump to a gadget that gives us a shell. Using one_gadget, I was able to find a gadget that works as long as the r15 and rdx registers are null, which is true for this program.
+Once we know that, we can use the buffer overflow to jump to a gadget that gives us a shell. Using one_gadget, I was able to find a gadget that works as long as the r15 and rdx registers are null (0), which is true for this program.
 ```
 # 0xe6c81 execve("/bin/sh", r15, rdx)
 [----------------------------------registers-----------------------------------]
