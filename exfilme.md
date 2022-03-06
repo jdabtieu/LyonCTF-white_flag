@@ -3,9 +3,9 @@
 ![](https://img.shields.io/badge/points-400-orange)
 
 ## Description
-```
-placeholder - problem hidden
-```
+Even though you have your flag, there's no way to communicate with the outside world!
+
+[exfilme.zip](https://ctf.mcpt.ca/media/problem/M29R_POPO43-CAVo-wid1MkgcIvYBDPlxVGvWaj_CTk/exfilme.zip)
 
 ## Solution
 We get to run our own shellcode at `0x13371337000`. Sweet! Unfortunately, we can only use the `read`, `open`, and `exit` syscalls, so there appears to be no way to get us the flag. However, we can rely on a timing attack - in which we can guess the flag character by character, and pause for a long time if our guess is correct. Then, if our script runs for a long time, we know that our guess is correct. For example, if I guess that character 0 of the flag is 'F' (which is wrong), the program exits immediately. If instead, I guess 'C' (correct), the program should hang.
@@ -13,6 +13,9 @@ We get to run our own shellcode at `0x13371337000`. Sweet! Unfortunately, we can
 To do this, I tried to hang the program using an infinite loop, but that crashed the instance and the only way to fix it was to restart it. Instead, I settled for a for loop with 1 billion iterations - which takes well over 2 seconds to complete.
 
 However, a typical for loop uses labels to determine where to jump to, something unavailable in shellcode.
+
+*Edit: labels and jumping are possible in shellcode. I just didn't realize this while writing the exploit.*
+
 ```
 label:
  cmp i, n                    ; compare i and n
