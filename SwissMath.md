@@ -3,17 +3,9 @@
 ![](https://img.shields.io/badge/points-100-orange)
 
 ## Description
-`placeholder - problem hidden`
-```
-placeholder - Switzerland.txt
+As you may or may not know, many Swiss people have a favourite mathematical operation. Can you tell me what it is?
 
-MzQgNDUgMjAgMzYgMzQgMjAgMzIgMzYgMjAgMzYgMzAgMjAgMzIgMzEgMjAgMzMgMzAgMjAgMzcg
-MzYgMjAgMzYgMzAgMjAgMzYgMzcgMjAgMzMgMzAgMjAgMzYgMzIgMjAgMzcgMzcgMjAgMzYgMzYg
-MjAgMzMgMzAgMjAgMzQgMzUgMjAgMzYgMzMgMjAgMzMgMzAgMjAgMzMgNDMgMjAgMzUgNDYgMjAg
-MzUgNDMgMjAgMzQgMzAgMjAgMzcgNDIgMjAgMzUgMzAgMjAgMzMgNDYgMjAgMzcgNDUgMjAgMzcg
-MzggMjAgMzQgMzUgMjAgMzcgMzggMjAgMzMgMzUgMjAgMzcgMzMgMjAgMzYgMzMgMjAgMzQgNDMg
-MjAgMzcgMzUgMjAgMzIgMzUgMjAgMzcgMzIgMjAgMzAgNDE=
-```
+[Switzerland.txt](https://ctf.mcpt.ca/media/problem/LFpWjVu5d5AjwT0BgeX23vXjzR_jByFaJvnwQ5SSk_s/Switzerland.txt)
 
 ## Solution
 The title suggests that some adding will be in the solution, since the Swiss flag is just a huge addition sign.
