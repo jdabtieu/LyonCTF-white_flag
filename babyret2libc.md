@@ -3,9 +3,9 @@
 ![](https://img.shields.io/badge/points-125-orange)
 
 ## Description
-```
-placeholder - problem hidden
-```
+The final challenge in the Baby series. Can you get the flag?
+
+[babyret2libc.zip](https://ctf.mcpt.ca/media/problem/kXH71NXeePum0Ngp2OvcyToBxakHZ4Z9lNJcYwI-3Lk/babyret2libc_P2EvcNi.zip)
 
 ## Solution
 This question is basically identical to [Baby Cookie](https://github.com/jdabtieu/LyonCTF-white_flag/blob/main/babycookie.md) except that instead of returning to the print_flag function, we need to return to libc instead. To determine the stack offsets used in this problem, refer to that writeup.
@@ -93,5 +93,6 @@ p.sendline(pay)
 p.interactive()
 ```
 
+For some reason, this exploit only works on linux, and not Windows. Not sure why.
 
-Flag: `placeholder - problem hidden`
+Flag: `CTF{Baby_challenges_completed!Lets_pwn_everything!}`
