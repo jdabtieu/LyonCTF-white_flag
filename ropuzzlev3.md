@@ -3,9 +3,11 @@
 ![](https://img.shields.io/badge/points-400-orange)
 
 ## Description
-```
-placeholder - problem hidden
-```
+Remember when I said I found the smallest binary? I was wrong! THIS is the smallest binary!
+
+`nc ctf.joshl.ca 5000`
+
+[ROPuzzleV3.zip](https://ctf.mcpt.ca/media/problem/1nAwhK1XyccZscKTOtQuIk1xvXgq3qUMfhJ-fG9fnFk/ROPuzzleV3.zip)
 
 ## Solution
 The binary is very small. We have a buffer overflow, but no gadgets and no libc to jump to.
