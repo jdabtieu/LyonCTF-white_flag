@@ -3,9 +3,9 @@
 ![](https://img.shields.io/badge/points-100-orange)
 
 ## Description
-```
-placeholder - problem hidden
-```
+Ok with this guard, there's no way you can smash my stack! Wait! what do you mean there's another bug?
+
+[babycookie.zip](https://ctf.mcpt.ca/media/problem/RRl33SBvcqvkk0FNgeCwBmNcfiISxJCWwaAMDC21raA/babycookie_mKn533H.zip)
 
 ## Solution
 The `gets` function has a buffer overflow that we can abuse to overwrite the return pointer. But, now there is a stack canary that will terminate the program if we try and do a stack overflow.
@@ -114,4 +114,4 @@ p.interactive()
 ```
 
 
-Flag: `placeholder - problem hidden`
+Flag: `CTF{Modern_security_still_has_its_flaws!}`
