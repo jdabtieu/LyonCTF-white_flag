@@ -76,5 +76,6 @@ for i in range(len(a1)):
   a2 += a1[map[i]]
 
 print('CTF{pyth0n_15_c0mp1l3d_' + base64.b64decode(a2).decode('utf-8') + '}')
+```
 
 Flag: `CTF{pyth0n_15_c0mp1l3d_92CkmOGu}`
